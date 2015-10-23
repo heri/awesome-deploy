@@ -1,0 +1,20 @@
+192.168.0.1 ansible_ssh_port=22
+
+[all]
+192.168.0.1
+
+[application]
+192.168.0.1
+
+[vm]
+192.168.0.1
+
+[development]
+192.168.0.1
+
+[postgresql]
+192.168.0.1
+
+[sidekiq]
+192.168.0.1
+
