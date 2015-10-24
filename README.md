@@ -1,50 +1,118 @@
 # Awesome-Deploy
 
-Your guide to Ruby apps that can serve 1,000 requests per seconds, and beyond!
+Your guide to Ruby apps that can serve 10,000 requests per seconds, and beyond!
 
+## Application server benchmarks
 
-## Quick install
+Don't believe the hype! The most performing are:
 
-```
-brew install caskroom/cask/brew-cask
-brew cask install virtualbox
-brew cask install vagrant
-brew install ansible
-```
+1. sinatra-unicorn
+2. puma-mri-grape
+3. rails-unicorn
 
-```
-cd /path/to/rails/project
-git clone http://github.com/heri/awesome-deploy
-cd awesome-deploy
-vagrant up
-```
+### JSON Serialization
 
-## TODO
+unicorn-grape	9,305	rqs/seconds
+puma-rbx-grape	117	rqs/seconds
+**puma-mri-grape	11,214	rqs/seconds**
+puma-jruby-grape	200	rqs/seconds
+torqbox-grape	9,694	rqs/seconds
+trinidad-grape	7,235	rqs/seconds
+thin-grape	2,246	rqs/seconds
+jruby-padrino	200	rqs/seconds
+rbx-padrino	116	rqs/seconds
+puma-padrino	5,232	rqs/seconds
+thin-padrino	1,092	rqs/seconds
+torqbox-padrino	6,447	rqs/seconds
+trinidad-padrino	5,329	rqs/seconds
+unicorn-padrino	6,765 rqs/seconds
+**rack	89,466 rqs/seconds**
+rack-rbx	119 rqs/seconds
+racket-ws	2,015 rqs/seconds
+rails-torqbox	2,379 rqs/seconds
+rails-unicorn	6,125 rqs/seconds
+rails-stripped-ruby	6,942 rqs/seconds
+rails-stripped-jruby	2,570 rqs/seconds
+puma-mri-rails	4,027 rqs/seconds
+puma-rbx-rails	116 rqs/seconds
+puma-jruby-rails	200 rqs/seconds
+trinidad-rails	2,377 rqs/seconds
+sinatra-rbx-puma	118 rqs/seconds
+sinatra-trinidad	9,589 rqs/seconds
+sinatra-puma	12,761 rqs/seconds
+sinatra-thin	3,195 rqs/seconds
+sinatra-jruby-puma	200 rqs/seconds
+**sinatra-unicorn	17,982 rqs/seconds
+sinatra-torqbox	18,340 rqs/seconds**
 
-* Ruby style guide highlighting *slow* ruby code. See [here](https://github.com/bbatsov/ruby-style-guide)
-* More recipes
+### Database query (reads)
+
+puma-jruby-grape	199 rqs/seconds
+puma-mri-grape	4,140 rqs/seconds
+unicorn-grape	4,203 rqs/seconds
+trinidad-grape	2,977 rqs/seconds
+puma-rbx-grape	115
+torqbox-padrino	3,807	rqs/seconds
+trinidad-padrino	3,462	rqs/seconds
+unicorn-padrino	3,691	rqs/seconds
+rbx-padrino	114 rqs/seconds
+thin-padrino	566 rqs/seconds
+jruby-padrino	200 rqs/seconds
+puma-padrino	4071 rqs/seconds
+rails-stripped-jruby	2,121 rqs/seconds
+**rails-stripped-ruby	4,540 rqs/seconds**
+rails-torqbox	2,428 rqs/seconds
+trinidad-rails	2,236 rqs/seconds
+rails-unicorn	4,264 rqs/seconds
+puma-jruby-rails	200 rqs/seconds
+puma-rbx-rails	114 rqs/seconds
+puma-mri-rails 3510 rqs/seconds
+sinatra-thin	1,284 rqs/seconds
+sinatra-trinidad	2,992 rqs/seconds
+**sinatra-unicorn	7,464 rqs/seconds**
+sinatra-jruby-puma	200 rqs/seconds
+sinatra-rbx-puma	116 rqs/seconds
+sinatra-puma	5,217 rqs/seconds
+sinatra-torqbox	2,818	rqs/seconds
+
+### Database query (write)
+
+torqbox-grape	2,334 rqs/seconds
+trinidad-grape	2,602 rqs/seconds
+unicorn-grape	2,891	 rqs/seconds
+puma-jruby-grape	398 rqs/seconds
+puma-mri-grape	4,966 rqs/seconds
+puma-rbx-grape	228 rqs/seconds
+thin-grape 659  rqs/seconds
+puma-padrino	2,247 rqs/seconds
+jruby-padrino	717 rqs/seconds
+thin-padrino	319 rqs/seconds
+trinidad-padrino	2,827 rqs/seconds
+unicorn-padrino	2,034 rqs/seconds
+torqbox-padrino	3,114 rqs/seconds
+rbx-padrino 430 rqs/seconds
+rails-torqbox	1,889 rqs/seconds
+trinidad-rails	2,126 rqs/seconds
+rails-unicorn	3,446 rqs/seconds
+puma-jruby-rails	394 rqs/seconds
+puma-rbx-rails	227 rqs/seconds
+puma-mri-rails	3,960 rqs/seconds
+sinatra-torqbox	2,426 rqs/seconds
+**sinatra-puma	5,981 rqs/seconds**
+sinatra-jruby-puma	779 rqs/seconds
+sinatra-rbx-puma	459 rqs/seconds
+**sinatra-unicorn	5,612 rqs/seconds**
+sinatra-thin	779 rqs/seconds
+sinatra-trinidad	2,663 rqs/seconds
+
 
 ## Measure
 
-The first step is recognizing if your application is slow or fast
+Measure performance:
 
 * [Miniprofiler](https://github.com/MiniProfiler/rack-mini-profiler) is a simple but effective mini-profiler
 * NewRelic is a paid solution that will give you a lot of insights, esp. which requests are the slowest and where
 * Google analytics can also help. For example, high bounce rates can mean either your site content is uninteresting, or it was too slow to load for them. Investigate!
-
-## Application server
-
-Get a fast server
-
-* [puma](http://puma.io/) is built for speed and concurrency
-* [Phusion Passenger](Fast & scalable) is a Fast & scalable server
-
-The server can also be fine-tuned, depending on resources available and objectives.
-
-## Ruby
-
-* JRuby
-* Rubinius
 
 ## Ruby code
 
@@ -79,7 +147,7 @@ Write code carefully. The best code is the one that does not exist. Here are dif
 
 ## Asynchronous processing
 
-* Move long processes to a Sidekiq queue. Typically: image processing, video encoding, sending emails, uploading files etc.
+* Decouple long processes to a queue. Typically: image processing, video encoding, sending emails, uploading files, geo requests, etc. These can be in another app in go, Erlang, or whatever tool is best for the job.
 * Use a client-side Javascript framework
 
 ## Client-Side
