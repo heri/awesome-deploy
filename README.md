@@ -6,9 +6,13 @@ Your guide to Ruby apps that can serve 10,000 requests per seconds, and beyond!
 
 Don't believe the hype! The most performing are:
 
-1. sinatra-unicorn
+1. sinatra-unicorn. [Docker](https://github.com/heri/awesome-deploy/tree/master/sinatra-unicorn-docker)
 2. puma-mri-grape
-3. rails-unicorn
+3. rails-unicorn. [Docker with nginx](https://github.com/heri/awesome-deploy/tree/master/rails-unicorn-docker-container)
+
+Latency for sinatra-unicorn is esp. interesting 1.5 ms	0.2% (max 66.3 ms)
+
+Numbers:
 
 ### JSON Serialization
 
@@ -120,7 +124,7 @@ It is very easy to create new objects and iterate through them with Ruby. What's
 
 Write code carefully. The best code is the one that does not exist. Here are different steps:
 
-* Rails is a heavy framework requiring a lot of resources and only be used when programmer time is limited and if it has unique features for the use case. Other frameworks are available if you are making an API or a WS app.
+* Rails is a heavy framework requiring a lot of resources and only be used when programmer time is limited and if it has unique features for the use case. For a lightweight site or an API (web service), Sinatra is a good choice as seen on the benchmarks above.
 * If you have to use Rails, consider [deleting middlewares](https://www.amberbit.com/blog/2014/2/14/putting-ruby-on-rails-on-a-diet/).
 * Mutate the original object instead of creating new copies. For example, to remove whitespace, `strip!` will not create a new copy of the object compared to `strip`
 * Tests and automated tests will surface poor code in your code. Make sure code coverage is maxed out!
@@ -147,7 +151,7 @@ Write code carefully. The best code is the one that does not exist. Here are dif
 
 ## Asynchronous processing
 
-* Decouple long processes to a queue. Typically: image processing, video encoding, sending emails, uploading files, geo requests, etc. These can be in another app in go, Erlang, or whatever tool is best for the job.
+* Decouple long processes to a queue. Typically: image processing, video encoding, sending emails, uploading files, geo requests, etc. These can be in another app in go, java, or whatever tool is best for the job.
 * Use a client-side Javascript framework
 
 ## Client-Side
