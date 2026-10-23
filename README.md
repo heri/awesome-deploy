@@ -160,3 +160,7 @@ Write code carefully. The best code is the one that does not exist. Here are dif
 * Minify javascript and CSS
 * Use async, whenever possible
 * Display loader gifs and subtle animations to let the user the request is being processed
+
+## Who is behind this
+
+Heri is a software engineer, photographer, father and Montréaler. Building in the open — see more projects at [studiozenkai.com](https://studiozenkai.com).
